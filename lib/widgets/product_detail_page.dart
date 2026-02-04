@@ -35,7 +35,9 @@ class ProductDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '\$${product.price.toStringAsFixed(2)}',
+              product.price == 0
+                  ? 'Free-to-play'
+                  : '\$${product.price.toStringAsFixed(2)}',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.amber,
                   ),
@@ -57,16 +59,18 @@ class ProductDetailPage extends StatelessWidget {
   Widget _buildImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.network(
-        product.imageUrl,
-        height: 200,
+      child: Container(
+        height: 220,
         width: double.infinity,
-        fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => Container(
-          height: 200,
-          color: _chipBackground,
-          child: const Center(
-            child: Icon(Icons.image_not_supported, size: 48, color: _labelColor),
+        color: _chipBackground,
+        alignment: Alignment.center,
+        child: Image.network(
+          product.imageUrl,
+          fit: BoxFit.contain,
+          errorBuilder: (_, __, ___) => const Icon(
+            Icons.image_not_supported,
+            size: 48,
+            color: _labelColor,
           ),
         ),
       ),
